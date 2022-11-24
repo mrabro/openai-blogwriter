@@ -111,8 +111,10 @@ var registerBlockType = wp.blocks.registerBlockType;
 					success: function success(response) {
 						if (response.status == undefined) {
 							response = response.replace(/\"/g, "");
-							response = response.replace(/\n/g, "&#13;&#10");
-							$(".textarea_block").html('<textarea cols="80" rows="20">' + response.replace(/\"/g, "") + '</textarea>');
+							response = response.replace(/\n/g, "<br/>");
+							response = response.replace(/\\n/g, "<br/>");
+							console.log(response);
+							$(".textarea_block").html(response);
 							// setAttributes({outlines: response});
 							// setAttributes({outlinesDisplay: true});
 						}
@@ -132,7 +134,18 @@ var registerBlockType = wp.blocks.registerBlockType;
 				wp.element.createElement("div", { "class": "textarea_block" })
 			);
 		},
-		save: function save() {}
+		save: function save(_ref2) {
+			var attributes = _ref2.attributes;
+
+			$("body").on('DOMSubtreeModified', ".outlines_save", function () {
+				console.log($(".outlines_save").html());
+			});
+			wp.element.createElement(
+				"div",
+				{ "class": "outlines_save" },
+				attributes.outlines
+			);
+		}
 	});
 })(jQuery);
 

@@ -1,7 +1,4 @@
-
 <?php
-require OPENAI_DIR . '/lib/vendor/autoload.php';
-use Curl\Curl;
 class OpenAI_BlogWriter{
 
     private static $completionEndpoint = 'https://api.openai.com/v1/completions';
