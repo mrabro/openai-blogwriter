@@ -100,4 +100,48 @@ class Openai_Blog_Writer_Admin {
 
 	}
 
+	public function openai_settings_page() {
+		add_options_page( 'OpenAI Blog Writer', 'OpenAI Blog Writer', 'manage_options', 'openai_blog_writer', array($this, 'openai_options_page') );
+	}
+	
+	public function openai_register_settings() {
+		register_setting( 'pluginPage', 'openai_settings' );
+		add_settings_section(
+			'openai_pluginPage_section', 
+			__( 'OpenAI API KEY', 'openai' ), 
+			array($this, 'openai_settings_section_callback'), 
+			'pluginPage'
+		);
+
+		add_settings_field( 
+			'openai_text_field_0', 
+			__( 'API KEY', 'openai' ), 
+			array($this, 'openai_text_field_0_render'), 
+			'pluginPage', 
+			'openai_pluginPage_section' 
+		);
+	}
+	
+	public function openai_settings_section_callback(  ) { 
+		echo __( 'You can set your OpenAI API Key here.', 'openai' );
+	}
+
+	public function openai_text_field_0_render(  ) { 
+		$options = get_option( 'openai_settings' ); ?>
+		<input type='text' name='openai_settings[openai_text_field_0]' value='<?php echo isset($options['openai_text_field_0']) ? $options['openai_text_field_0'] : ''; ?>'>
+		<?php
+	}
+
+	function openai_options_page(  ) { 
+		?>
+		<form action='options.php' method='post'>
+			<h2>OpenAI Blog Writer</h2>
+			<?php
+			settings_fields( 'pluginPage' );
+			do_settings_sections( 'pluginPage' );
+			submit_button();
+			?>
+		</form>
+		<?php
+	}
 }
