@@ -36,6 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'OPENAI_BLOG_WRITER_VERSION', '1.0.0' );
+define( 'OPENAI_DIR', dirname( __FILE__ ) );
 
 /**
  * The code that runs during plugin activation.

@@ -115,6 +115,7 @@ class Openai_Blog_Writer {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-openai-blog-writer-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-openai-api.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -159,6 +160,8 @@ class Openai_Blog_Writer {
 
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'openai_settings_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'openai_register_settings' );
+
+		$this->loader->add_action("wp_ajax_fetch_outlines", $plugin_admin, "fetch_outlines");
 
 	}
 
