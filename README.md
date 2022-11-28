@@ -39,3 +39,18 @@
 <p align="center">
   Plugin is still in development mode, anyone can contribute :)
 </p>
+
+<br>
+<br>
+
+<div>
+<h2>Installation</h2>
+<hr>
+<ul>
+  <li>`Clone` or `Download` repo</li>
+  <li>Put the downloaded folder inside `wp-content/plugins`</li>
+  <li>Login to WP Admin Dashboard and Activate the Plugin `OpenAI Blog Writer`</li>
+</ul>
+<p>That's all :)</p>
+</div>
+
