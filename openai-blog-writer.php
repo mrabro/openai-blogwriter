@@ -81,3 +81,13 @@ function run_openai_blog_writer() {
 
 }
 run_openai_blog_writer();
+
+
+// Setting link
+add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'openai_plugin_page_settings_link');
+function openai_plugin_page_settings_link( $links ) {
+	$links[] = '<a href="' .
+		admin_url( 'options-general.php?page=openai_blog_writer' ) .
+		'">' . __('Settings') . '</a>';
+	return $links;
+}
