@@ -40,16 +40,12 @@
   Plugin is still in development mode, anyone can contribute :)
 </p>
 
-<br>
-<br>
-
 <div>
 <h2>Installation</h2>
-<hr>
 <ul>
-  <li>`Clone` or `Download` repo</li>
-  <li>Put the downloaded folder inside `wp-content/plugins`</li>
-  <li>Login to WP Admin Dashboard and Activate the Plugin `OpenAI Blog Writer`</li>
+  <li><code>Clone</code> or <code>Download</code> repo</li>
+  <li>Put the downloaded folder inside <code>wp-content/plugins</code></li>
+  <li>Login to WP Admin Dashboard and Activate the Plugin <code>OpenAI Blog Writer</code></li>
 </ul>
 <p>That's all :)</p>
 </div>
