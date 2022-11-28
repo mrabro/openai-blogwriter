@@ -164,15 +164,15 @@ class Openai_Blog_Writer_Admin {
 					<table>
 						<tr>
 							<th><label for="topic">Topic</label></th>
-							<td><input type="text" name="openai[topic]" id="openai_title" placeholder="Enter your Topic" style="width:200px" required></td>
+							<td><input type="text" name="openai[topic]" id="openai_title" placeholder="Enter your Topic" style="width:200px" required><span data-tooltip="i.e. What is WordPress">(?)</span></td>
 						</tr>
 						<tr>
 							<th><label for="length">Maximum length</label></th>
-							<td><input type="number" name="openai[tokens]" placeholder="length of Blog (Tokens)" style="width:200px" value="10"></td>
+							<td><input type="number" name="openai[tokens]" placeholder="length of Blog (Tokens)" style="width:200px" value="10"><span data-tooltip="The maximum number of tokens to generate in the completion. The token count of your prompt plus max_tokens cannot exceed the model's context length. Most models have a context length of 2048 tokens (except for the newest models, which support 4096).">(?)</span></td>
 						</tr>
 						<tr>
 							<th><label for="temprature">Temperature</label></th>
-							<td><input name="openai[temperature]" type="number" max="1" min="0" step="0.1" value="0.7" style="width:200px"></td>
+							<td><input name="openai[temperature]" type="number" max="1" min="0" step="0.1" value="0.7" style="width:200px"><span data-tooltip="Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.">(?)</span></td>
 						</tr>
 						<tr>
 							<th><label for="model">Model</label></th>
@@ -182,7 +182,8 @@ class Openai_Blog_Writer_Admin {
 									<option value="text-davinci-001">text-davinci-001</option>
 									<option value="text-curie-001">text-curie-001</option>
 									<option value="text-ada-001">text-ada-001</option>
-								</select>
+								</select><span data-tooltip="Select your required model to generate textr">(?)</span>
+								<p class="description">Ref: <a target="_blank" href="https://beta.openai.com/docs/api-reference/completions/create">OpenAI Docs</a></p>
 							</td>
 						</tr>
 						<tr>

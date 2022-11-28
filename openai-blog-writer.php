@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://twitter.com/mrabro
+ * @link              https://github.com/mrabro
  * @since             1.0.0
  * @package           Openai_Blog_Writer
  *
  * @wordpress-plugin
  * Plugin Name:       OpenAI Blog Writer
- * Plugin URI:        https://twitter.com/mrabro
+ * Plugin URI:        https://github.com/mrabro/openai-blogwriter
  * Description:       Blog writing plugin with OpenAI API integration
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Rafi Abro
- * Author URI:        https://twitter.com/mrabro
+ * Author URI:        https://github.com/mrabro
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       openai-blog-writer
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'OPENAI_BLOG_WRITER_VERSION', '1.0.0' );
+define( 'OPENAI_BLOG_WRITER_VERSION', '1.0.1' );
 define( 'OPENAI_DIR', dirname( __FILE__ ) );
 
 /**

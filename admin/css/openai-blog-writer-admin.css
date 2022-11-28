@@ -2,3 +2,34 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+ [data-tooltip]:before {
+    /* needed - do not touch */
+    content: attr(data-tooltip);
+    position: absolute;
+    opacity: 0;
+    
+    /* customizable */
+    transition: all 0.15s ease;
+    padding: 10px;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 2px 2px 1px silver;    
+}
+
+[data-tooltip]:hover:before {
+    /* needed - do not touch */
+    opacity: 1;
+    
+    /* customizable */
+    /* background: yellow; */
+    border: 1px solid;
+    margin-top: -10px;
+    margin-left: 20px;
+    /* LineBreak */
+    white-space: pre-line;
+}
+
+[data-tooltip]:not([data-tooltip-persistent]):before {
+    pointer-events: none;
+}
