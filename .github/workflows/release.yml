@@ -1,0 +1,31 @@
+name: Generate Installable Plugin, and Upload as Release Asset
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    if: "contains(github.event.head_commit.message, 'release')"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build project
+        run: |
+          mkdir build
+      - name: Create artifact
+        uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -X -r build/openai-blog-writer.zip . -x *.git* node_modules/\* .* "*/\.*" CODE_OF_CONDUCT.md README.md CONTRIBUTING.md ISSUE_TEMPLATE.md PULL_REQUEST_TEMPLATE.md *.dist composer.* dev-helpers** build**
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+            name: openai-blog-writer
+            path: build/openai-blog-writer.zip
+      - name: Upload to release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/*"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.TOKEN }}
