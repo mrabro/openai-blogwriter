@@ -96,8 +96,8 @@ class Openai_Blog_Writer_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/block.build.js', array( 'jquery', 'wp-blocks' ), $this->version, false );
-		wp_localize_script( $this->plugin_name, "admin", array("ajax"=>admin_url( 'admin-ajax.php' ), "base_url" => get_site_url()));
+		// wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/block.build.js', array( 'jquery', 'wp-blocks' ), $this->version, false );
+		// wp_localize_script( $this->plugin_name, "admin", array("ajax"=>admin_url( 'admin-ajax.php' ), "base_url" => get_site_url()));
 
 
 	}
@@ -123,10 +123,10 @@ class Openai_Blog_Writer_Admin {
 			'openai_pluginPage_section' 
 		);
 
-		// Register BlockTypes
-		register_block_type( "openai/blog-outlines", array(
-			'editor_script' => $this->plugin_name
-		) );
+		// // Register BlockTypes
+		// register_block_type( "openai/blog-outlines", array(
+		// 	'editor_script' => $this->plugin_name
+		// ) );
 	}
 	
 	public function openai_settings_section_callback(  ) { 
@@ -152,19 +152,19 @@ class Openai_Blog_Writer_Admin {
 		<?php
 	}
 
-	function fetch_outlines(){
-		$response = array('status' => false, 'msg' => 'Something went wrong');
-		if(!isset($_REQUEST['topic'])){
-			wp_send_json( $response, 200 );
-		}
-		$topic = $_REQUEST['topic'];
-		$data = OpenAI_BlogWriter::getOutlines($topic);
-		if(isset($data->id) && isset($data->choices) && is_array($data->choices)){
-			// $response['status'] = true;
-			// $response['msg'] = "success";
-			// $response['choices'] = $data->choices[0]->text;
-			wp_send_json($data->choices[0]->text, 200);
-		}
-		wp_send_json($response, 200);
-	}
+	// function fetch_outlines(){
+	// 	$response = array('status' => false, 'msg' => 'Something went wrong');
+	// 	if(!isset($_REQUEST['topic'])){
+	// 		wp_send_json( $response, 200 );
+	// 	}
+	// 	$topic = $_REQUEST['topic'];
+	// 	$data = OpenAI_BlogWriter::getOutlines($topic);
+	// 	if(isset($data->id) && isset($data->choices) && is_array($data->choices)){
+	// 		// $response['status'] = true;
+	// 		// $response['msg'] = "success";
+	// 		// $response['choices'] = $data->choices[0]->text;
+	// 		wp_send_json($data->choices[0]->text, 200);
+	// 	}
+	// 	wp_send_json($response, 200);
+	// }
 }
