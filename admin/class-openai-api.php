@@ -42,7 +42,7 @@ class OpenAI_BlogWriter{
     }
     
     
-    public static function generateBlog($topic){
+    public static function generateBlog($data){
         $options = get_option( 'openai_settings' );
         if(!isset($options['openai_text_field_0'])){
             return "Invalid API KEY";
@@ -60,9 +60,9 @@ class OpenAI_BlogWriter{
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>'{
             "model": "text-davinci-002",
-            "prompt": "Generate a blog on Topic: '.$topic.'",
-            "temperature": 0.7,
-            "max_tokens": 256,
+            "prompt": "Generate a blog on Topic: '.$data['topic'].'",
+            "temperature": '.$data['temperature'].',
+            "max_tokens": '.$data['tokens'].',
             "top_p": 1,
             "frequency_penalty": 0,
             "presence_penalty": 0

@@ -97,7 +97,8 @@ class Openai_Blog_Writer_Admin {
 		 */
 
 		// wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/block.build.js', array( 'jquery', 'wp-blocks' ), $this->version, false );
-		// wp_localize_script( $this->plugin_name, "admin", array("ajax"=>admin_url( 'admin-ajax.php' ), "base_url" => get_site_url()));
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/openai-blog-writer-settings.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( $this->plugin_name, "admin", array("ajax"=>admin_url( 'admin-ajax.php' ), "base_url" => get_site_url()));
 
 
 	}
@@ -107,20 +108,20 @@ class Openai_Blog_Writer_Admin {
 	}
 	
 	public function openai_register_settings() {
-		register_setting( 'pluginPage', 'openai_settings' );
+		register_setting( 'OpenAIpluginPage', 'openai_settings' );
 		add_settings_section(
-			'openai_pluginPage_section', 
+			'openai_OpenAIpluginPage_section', 
 			__( 'OpenAI API KEY', 'openai' ), 
 			array($this, 'openai_settings_section_callback'), 
-			'pluginPage'
+			'OpenAIpluginPage'
 		);
 
 		add_settings_field( 
 			'openai_text_field_0', 
 			__( 'API KEY', 'openai' ), 
 			array($this, 'openai_text_field_0_render'), 
-			'pluginPage', 
-			'openai_pluginPage_section' 
+			'OpenAIpluginPage', 
+			'openai_OpenAIpluginPage_section' 
 		);
 
 		// // Register BlockTypes
@@ -144,12 +145,95 @@ class Openai_Blog_Writer_Admin {
 		<form action='options.php' method='post'>
 			<h2>OpenAI Blog Writer</h2>
 			<?php
-			settings_fields( 'pluginPage' );
-			do_settings_sections( 'pluginPage' );
+			settings_fields( 'OpenAIpluginPage' );
+			do_settings_sections( 'OpenAIpluginPage' );
 			submit_button();
 			?>
 		</form>
 		<?php
+
+		$options = get_option( 'openai_settings' );
+		if(isset($options['openai_text_field_0'])){ 
+			wp_enqueue_script( 'thickbox' );
+			wp_enqueue_style( 'thickbox' );
+			?>
+			<a href="TB_inline?width=700&height=550&inlineId=openai-blog-modal" class="thickbox">Start Generating Blogs</a>
+			<div id="openai-blog-modal" style="display:none;">
+				<h2>OpenAI Labs Blog Writer</h2>
+				<form name="generate_blog" id="openai_form">
+					<table>
+						<tr>
+							<th><label for="topic">Topic</label></th>
+							<td><input type="text" name="openai[topic]" id="openai_title" placeholder="Enter your Topic" style="width:200px" required></td>
+						</tr>
+						<tr>
+							<th><label for="length">Maximum length</label></th>
+							<td><input type="number" name="openai[tokens]" placeholder="length of Blog (Tokens)" style="width:200px" value="10"></td>
+						</tr>
+						<tr>
+							<th><label for="temprature">Temperature</label></th>
+							<td><input name="openai[temperature]" type="number" max="1" min="0" step="0.1" value="0.7" style="width:200px"></td>
+						</tr>
+						<tr>
+							<th><label for="model">Model</label></th>
+							<td>
+								<select name="openai[model]" id="">
+									<option value="text-davinci-002">text-davinci-002</option>
+									<option value="text-davinci-001">text-davinci-001</option>
+									<option value="text-curie-001">text-curie-001</option>
+									<option value="text-ada-001">text-ada-001</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th colspan="2"><?php echo submit_button("Generate"); ?><span class="openai_spinner spinner"></span></th>
+						</tr>
+						<tr>
+							<th><label for="result">Result</label></th>
+							<td>
+								<textarea name="openai_result" id="openai_result" cols="70" rows="10"></textarea>
+							</td>
+						</tr>
+					</table>
+				</form>
+				
+			</div>
+		<?php
+		}
+	}
+
+	function generate_blog(){
+		$response = array('status' => false, 'msg' => 'Something went wrong');
+		if(isset($_REQUEST['openai']) && is_array($_REQUEST['openai']) && isset($_REQUEST['openai']['topic'])){
+			$data = OpenAI_BlogWriter::generateBlog($_REQUEST['openai']);
+			error_log(print_r($data,true));
+			if(isset($data->id) && isset($data->choices) && is_array($data->choices)){
+				$response['status'] = true;
+				$response['msg'] = "success";
+				$response['blog'] = isset($data->choices[0]->text) ? $data->choices[0]->text : "";
+			}
+		}
+		wp_send_json($response, 200);
+	}
+
+	function openai_save_post(){
+		$response = array('status' => false, 'msg' => 'Something went wrong');
+		if(isset($_REQUEST['title']) && isset($_REQUEST['post'])){
+			$wordpress_post = array(
+			'post_title' => $_REQUEST['title'],
+			'post_content' => $_REQUEST['post'],
+			'post_status' => 'draft',
+			'post_type' => 'post'
+			);
+			$post_id = wp_insert_post( $wordpress_post );
+			if($post_id){
+				$response['status'] = true;
+				$response['msg'] = "success";
+				$response['post'] = get_edit_post_link($post_id);
+			}
+		}
+
+		wp_send_json($response, 200);
 	}
 
 	// function fetch_outlines(){
