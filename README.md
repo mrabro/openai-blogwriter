@@ -51,3 +51,17 @@
 <p>That's all :)</p>
 </div>
 
+<div align="center">
+  <h2>Visual Guide</h2>
+  <img width="1193" alt="Screen Shot 2022-11-29 at 4 42 42 PM" src="https://user-images.githubusercontent.com/4149030/204520217-52c0f8a1-3f69-4982-ad81-fcd9cf9f3cd5.png">
+  <hr>
+  <img width="1199" alt="Screen Shot 2022-11-29 at 4 43 14 PM" src="https://user-images.githubusercontent.com/4149030/204520305-7b29bdd8-fb54-4dd4-9fd8-b01740d413d3.png">
+  <hr>
+  <img width="1042" alt="Screen Shot 2022-11-29 at 4 44 47 PM" src="https://user-images.githubusercontent.com/4149030/204520607-eb019cea-fbb1-4c76-b7cd-e89db4abdb3f.png">
+  <hr>
+  <img width="636" alt="Screen Shot 2022-11-29 at 4 45 10 PM" src="https://user-images.githubusercontent.com/4149030/204520763-2cdb6913-037e-48d6-b814-cb51a3907caa.png">
+  <hr>
+  <img width="734" alt="Screen Shot 2022-11-29 at 4 46 05 PM" src="https://user-images.githubusercontent.com/4149030/204520834-0c6fd7ef-ce52-471b-9f7a-cce371d1a1f8.png">
+  <hr>
+  <img width="777" alt="Screen Shot 2022-11-29 at 4 50 55 PM" src="https://user-images.githubusercontent.com/4149030/204521695-1785eb94-f96f-4afa-ae40-2558a106e643.png">
+</div>
