@@ -46,6 +46,7 @@
   <li><code>Clone</code> or <code>Download</code> repo</li>
   <li>Put the downloaded folder inside <code>wp-content/plugins</code></li>
   <li>Login to WP Admin Dashboard and Activate the Plugin <code>OpenAI Blog Writer</code></li>
+  <li>Go to plugin Settings and insert <code>OpenAI APIKEY</code></li>
 </ul>
 <p>That's all :)</p>
 </div>
