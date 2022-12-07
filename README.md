@@ -1,6 +1,7 @@
 <div align="center">
   <h1>BlogWriter OpenAI</h1>
   <h3>WordPress Plugin for writing Blogs with OpenAI API</h3>
+  <h5>If you like the plugin, don't forget to give a Star to this repo</h5>
 </div>
 
 <p align="center">
@@ -37,7 +38,7 @@
 <br>
 <br>
 <p align="center">
-  Plugin is still in development mode, anyone can contribute :)
+  Plugin is still in development mode, (Open to Suggestions as well as anyone can contribute) :)
 </p>
 
 <div>
