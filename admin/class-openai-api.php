@@ -92,7 +92,6 @@ class OpenAI_BlogWriter{
             "n": '.$data['n'].',
             "size": "'.$data['size'].'"
         }';
-        error_log(print_r($postFields,true));
         curl_setopt_array($curl, array(
         CURLOPT_URL => self::$imageGeneration,
         CURLOPT_RETURNTRANSFER => true,

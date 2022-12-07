@@ -64,6 +64,7 @@
                         var btn = document.createElement('button');
                         btn.setAttribute("class", "openai_generated_image");
                         btn.setAttribute("data-image",image.url);
+                        btn.setAttribute("data-title",data['openai[prompt]']);
                         btn.innerHTML = "Save image to Library"
                         $(".openai_images").append(img);
                         $(".openai_images").append(btn);
@@ -75,7 +76,23 @@
     });
 
     $(document).on("click", ".openai_generated_image", function(e){
-        console.log($(this).data("image"));
+        e.preventDefault();
+        let data = {
+            image: $(this).data("image"),
+            title: $(this).data('title'),
+            action: "save_image_to_library"
+        }
+        $.ajax({
+            url: admin.ajax,
+            type: 'post',
+            data: data,
+            success: function (response) {
+                if(response.status){
+                    alert("Image Saved");
+                }
+                // $(".openai_image_spinner").css("visibility","hidden");
+            }
+        });
     });
 
 })( jQuery );
