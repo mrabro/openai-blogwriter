@@ -153,11 +153,12 @@ class Openai_Blog_Writer_Admin {
 		<?php
 
 		$options = get_option( 'openai_settings' );
-		if(isset($options['openai_text_field_0'])){ 
+		if(isset($options['openai_text_field_0']) && strlen($options['openai_text_field_0']) > 0){ 
 			wp_enqueue_script( 'thickbox' );
 			wp_enqueue_style( 'thickbox' );
 			?>
-			<a href="TB_inline?width=700&height=550&inlineId=openai-blog-modal" class="thickbox">Start Generating Blogs</a>
+			<a href="TB_inline?width=700&height=550&inlineId=openai-blog-modal" class="thickbox">Start Generating Blogs</a> | 
+			<a href="TB_inline?width=700&height=550&inlineId=openai-image-modal" class="thickbox">Generate Images</a>
 			<div id="openai-blog-modal" style="display:none;">
 				<h2>OpenAI Labs Blog Writer</h2>
 				<form name="generate_blog" id="openai_form">
@@ -182,7 +183,7 @@ class Openai_Blog_Writer_Admin {
 									<option value="text-davinci-001">text-davinci-001</option>
 									<option value="text-curie-001">text-curie-001</option>
 									<option value="text-ada-001">text-ada-001</option>
-								</select><span data-tooltip="Select your required model to generate textr">(?)</span>
+								</select><span data-tooltip="Select your required model to generate text">(?)</span>
 								<p class="description">Ref: <a target="_blank" href="https://beta.openai.com/docs/api-reference/completions/create">OpenAI Docs</a></p>
 							</td>
 						</tr>
@@ -199,6 +200,43 @@ class Openai_Blog_Writer_Admin {
 				</form>
 				
 			</div>
+			<div id="openai-image-modal" style="display:none;">
+				<h2>OpenAI Labs Image Generator</h2>
+				<form name="generate_blog" id="openai_image_form">
+					<table>
+						<tr>
+							<th><label for="prompt">Prompt</label></th>
+							<td><input type="text" name="openai[prompt]" id="prompt" placeholder="Enter your prompt" style="width:200px" required><span data-tooltip="i.e. Swimming black cat in the river">(?)</span></td>
+						</tr>
+						<tr>
+							<th><label for="number">Number of Images</label></th>
+							<td><input type="number" name="openai[n]" placeholder="Number of Images" style="width:200px" value="1"><span data-tooltip="can be 1 - 10">(?)</span></td>
+						</tr>
+						<tr>
+							<th><label for="size">Size</label></th>
+							<td>
+								<select name="openai[size]" id="">
+									<option value="256x256">256x256</option>
+									<option value="512x512">512x512</option>
+									<option value="1024x1024">1024x1024</option>
+								</select><span data-tooltip="Select your preferred size for image">(?)</span>
+								<p class="description">Ref: <a target="_blank" href="https://beta.openai.com/docs/guides/images/introduction">OpenAI Docs</a></p>
+							</td>
+						</tr>
+						<tr>
+							<th colspan="2"><?php echo submit_button("Generate"); ?><span class="openai_image_spinner spinner"></span></th>
+						</tr>
+						<tr>
+							<th><label for="result">Result</label></th>
+							<td>
+								<div class="openai_images">
+
+								</div>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
 		<?php
 		}
 	}
@@ -212,6 +250,20 @@ class Openai_Blog_Writer_Admin {
 				$response['status'] = true;
 				$response['msg'] = "success";
 				$response['blog'] = isset($data->choices[0]->text) ? $data->choices[0]->text : "";
+			}
+		}
+		wp_send_json($response, 200);
+	}
+	
+	function generate_image(){
+		$response = array('status' => false, 'msg' => 'Something went wrong');
+		if(isset($_REQUEST['openai']) && is_array($_REQUEST['openai']) && isset($_REQUEST['openai']['prompt'])){
+			$data = OpenAI_BlogWriter::generateImages($_REQUEST['openai']);
+			error_log(print_r($data,true));
+			if(isset($data->data) && isset($data->data[0]->url) && is_array($data->data)){
+				$response['status'] = true;
+				$response['msg'] = "success";
+				$response['images'] = isset($data->data) ? $data->data : "";
 			}
 		}
 		wp_send_json($response, 200);

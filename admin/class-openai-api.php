@@ -2,6 +2,7 @@
 class OpenAI_BlogWriter{
 
     private static $completionEndpoint = 'https://api.openai.com/v1/completions';
+    private static $imageGeneration = 'https://api.openai.com/v1/images/generations';
 
     public static function getOutlines($topic){
         $options = get_option( 'openai_settings' );
@@ -59,7 +60,7 @@ class OpenAI_BlogWriter{
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>'{
-            "model": "text-davinci-002",
+            "model": '.$data['model'].',
             "prompt": "Generate a blog on Topic: '.$data['topic'].'",
             "temperature": '.$data['temperature'].',
             "max_tokens": '.$data['tokens'].',
@@ -78,6 +79,40 @@ class OpenAI_BlogWriter{
         curl_close($curl);
         return json_decode($response);
 
+    }
+
+    public static function generateImages($data){
+        $options = get_option( 'openai_settings' );
+        if(!isset($options['openai_text_field_0'])){
+            return "Invalid API KEY";
+        }
+        $curl = curl_init();
+        $postFields = '{
+            "prompt": "'.$data['prompt'].'",
+            "n": '.$data['n'].',
+            "size": "'.$data['size'].'"
+        }';
+        error_log(print_r($postFields,true));
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => self::$imageGeneration,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => $postFields,
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$options['openai_text_field_0'],
+            'Content-Type: application/json'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return json_decode($response);
     }
 
 }

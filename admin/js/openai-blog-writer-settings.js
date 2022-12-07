@@ -44,4 +44,38 @@
         console.log(post);
     });
 
+    $(document).on("submit", "form#openai_image_form", function(e){
+        e.preventDefault();
+        $(".openai_image_spinner").css("visibility","visible");
+        var data = $(this).serializeArray().reduce(function(obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
+        data.action = "generate_image";
+        $.ajax({
+            url: admin.ajax,
+            type: 'post',
+            data: data,
+            success: function (response) {
+                if(response.status){
+                    response.images.forEach(function(image, i){
+                        var img = document.createElement('img');
+                        img.src = image.url;
+                        var btn = document.createElement('button');
+                        btn.setAttribute("class", "openai_generated_image");
+                        btn.setAttribute("data-image",image.url);
+                        btn.innerHTML = "Save image to Library"
+                        $(".openai_images").append(img);
+                        $(".openai_images").append(btn);
+                    });
+                }
+                $(".openai_image_spinner").css("visibility","hidden");
+            }
+        });
+    });
+
+    $(document).on("click", ".openai_generated_image", function(e){
+        console.log($(this).data("image"));
+    });
+
 })( jQuery );
