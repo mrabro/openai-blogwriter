@@ -37,7 +37,7 @@ if ( ! defined( 'WPINC' ) ) {
  */
 define( 'OPENAI_BLOG_WRITER_VERSION', '1.0.1' );
 define( 'OPENAI_DIR', dirname( __FILE__ ) );
-
+define('ALLOW_UNFILTERED_UPLOADS', true);
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-openai-blog-writer-activator.php

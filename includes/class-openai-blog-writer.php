@@ -164,6 +164,8 @@ class Openai_Blog_Writer {
 		// $this->loader->add_action("wp_ajax_fetch_outlines", $plugin_admin, "fetch_outlines");
 		$this->loader->add_action("wp_ajax_generate_blog", $plugin_admin, "generate_blog");
 		$this->loader->add_action("wp_ajax_openai_save_post", $plugin_admin, "openai_save_post");
+		$this->loader->add_action("wp_ajax_generate_image", $plugin_admin, "generate_image");
+		$this->loader->add_action("wp_ajax_save_image_to_library", $plugin_admin, "save_image_to_library");
 
 	}
 
