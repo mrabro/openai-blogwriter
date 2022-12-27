@@ -167,6 +167,11 @@ class Openai_Blog_Writer {
 		$this->loader->add_action("wp_ajax_generate_image", $plugin_admin, "generate_image");
 		$this->loader->add_action("wp_ajax_save_image_to_library", $plugin_admin, "save_image_to_library");
 
+		// Tags
+		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'generate_blog_tags_meta_box' );
+		$this->loader->add_action( 'wp_ajax_generate_tags_ajax_handler', $plugin_admin, 'generate_tags_ajax_handler' );
+		$this->loader->add_action( 'wp_ajax_add_tags_ajax_handler', $plugin_admin, 'add_tags_ajax_handler' );
+
 	}
 
 	/**

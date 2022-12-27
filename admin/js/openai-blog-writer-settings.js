@@ -95,4 +95,86 @@
         });
     });
 
+    $(document).on("click", "#generate-post-tags", function(e){
+        e.preventDefault();
+        let that = this;
+        $(that).prop('disabled', true);
+        $(that).text('loading..');
+        let data = {
+            post_id: $(this).data("id"),
+            generate_blog_tags_meta_box: $('input#generate_blog_tags_meta_box').val(),
+            action: "generate_tags_ajax_handler"
+        };
+        $.ajax({
+            url: admin.ajax, // The WordPress AJAX URL
+            type: 'POST',
+            data,
+            success: function(response) {
+              $(that).prop('disabled', false);
+              $(that).text('Re Generate Tags');
+              if(response.status){
+                let container = document.getElementById('tags_container');
+                console.log(response.tags);
+                for (const tag of response.tags) {
+                    
+                    // Create a checkbox element
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = tag;
+                    checkbox.id = tag;
+                  
+                    // Create a label element
+                    const label = document.createElement('label');
+                    label.htmlFor = tag;
+                    label.textContent = tag;
+                  
+                    // Add the checkbox and label to the container
+                    container.appendChild(checkbox);
+                    container.appendChild(label);
+                }
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.textContent = 'Add selected tags to post';
+
+                // Add the button to the container
+                container.appendChild(button);
+
+                // Add an event listener to the button
+                button.addEventListener('click', function() {
+                    button.classList.add('loading');
+                    button.disabled = true;
+                    // Set the button's text content to "Loading..."
+                    button.textContent = 'Loading...';
+                    // Get the selected tags
+                    const selectedTags = [];
+                    for (const checkbox of container.querySelectorAll('input[type="checkbox"]:checked')) {
+                        selectedTags.push(checkbox.value);
+                    }
+                    let tagData = {
+                        tags: selectedTags,
+                        action: 'add_tags_ajax_handler',
+                        post_id: response.post_id
+                    }
+                    console.log(tagData);
+                    $.ajax({
+                        url: admin.ajax, // The WordPress AJAX URL
+                        type: 'POST',
+                        data: tagData,
+                        success: function(response) {
+                            if(response.status){
+                                location.reload();
+                            } else {
+                                alert(response.msg);
+                            }
+                            button.classList.remove('loading');
+                            button.textContent = 'Add selected tags to post';
+                            button.disabled = false;
+                        }
+                    });
+                });
+              }
+            }
+          });
+    })
+
 })( jQuery );

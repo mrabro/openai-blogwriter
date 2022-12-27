@@ -365,4 +365,64 @@ class Openai_Blog_Writer_Admin {
 	// 	}
 	// 	wp_send_json($response, 200);
 	// }
+
+	public function generate_blog_tags_meta_box(){
+		add_meta_box(
+			'generate_blog_tags_meta_box', // Meta box ID
+			'Generate Tags', // Meta box title
+			array($this, 'generate_blog_tags'), // Callback function
+			'post', // Post type
+			'normal', // Context
+			'default' // Priority
+		);
+	}
+
+	public function generate_blog_tags($post){
+		// Output a nonce field
+		wp_nonce_field( 'generate_blog_tags_meta_box', 'generate_blog_tags_meta_box' );
+		// Output the button
+		echo '<button type="button" id="generate-post-tags" data-id="'.$post->ID.'">Generate Tags</button>';
+		echo '<div id="tags_container" class="checkbox-container"></div>';
+	}
+
+	public function generate_tags_ajax_handler() {
+		$response = array("status" => false, "msg" => "error");
+		// Check the nonce field to verify the request is valid
+		if(check_ajax_referer( 'generate_blog_tags_meta_box', 'generate_blog_tags_meta_box' )){
+			// Get the post ID from the request data
+			$post_id = intval( $_POST['post_id'] );
+			$post = get_post($post_id);
+			$data = OpenAI_BlogWriter::generateBlogTags($post->post_content);
+			if(isset($data->id) && isset($data->choices) && is_array($data->choices)){
+				$tags = explode(",",$data->choices[0]->text);
+				$trimmed = [];
+				error_log(print_r($tags,true));
+				foreach($tags as $tag){
+					error_log(print_r($tag,true));
+					$trimmed[] = trim($tag);
+				}
+				$response['status'] = true;
+				$response['msg'] = "success";
+				$response['tags'] = $trimmed;
+				$response['post_id'] = $post_id;
+			}
+			
+		}
+		wp_send_json($response, 200);
+	}
+
+	public function add_tags_ajax_handler(){
+		$response = array("status" => false, "msg" => "error");
+		if(isset($_REQUEST['post_id']) && isset($_REQUEST['tags'])){
+			$post_id = $_REQUEST['post_id'];
+			$tags = $_REQUEST['tags'];
+			$d = wp_set_post_tags( $post_id, $tags, true );
+			if(!is_wp_error($d)){
+				$response['status'] = true;
+			}
+		}
+		wp_send_json($response, 200);
+	}
+	  
+	  
 }

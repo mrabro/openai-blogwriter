@@ -16,7 +16,7 @@
  * Plugin Name:       OpenAI Blog Writer
  * Plugin URI:        https://github.com/mrabro/openai-blogwriter
  * Description:       Blog writing plugin with OpenAI API integration
- * Version:           1.0.1
+ * Version:           1.0.7
  * Author:            Rafi Abro
  * Author URI:        https://github.com/mrabro
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'OPENAI_BLOG_WRITER_VERSION', '1.0.1' );
+define( 'OPENAI_BLOG_WRITER_VERSION', '1.0.7' );
 define( 'OPENAI_DIR', dirname( __FILE__ ) );
 define('ALLOW_UNFILTERED_UPLOADS', true);
 /**
